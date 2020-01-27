@@ -6,25 +6,23 @@ use app\core\View;
 
 class Router
 {
-
     protected $routes = [];
     protected $params = [];
 
     public function __construct()
     {
         $arr = require 'app/config/routes.php';
-        foreach ($ar as $key => $val)
+        foreach ($arr as $key => $val)
             $this->add($key, $val);
     }
 
     public function add($route, $params){
         $route = '#^'.$route.'$#';
         $this->routes[$route] = $params;
-
     }
 
     public function match(){
-        $url = trim($_SERVER['REQUEST_URI'], '/';
+        $url = trim($_SERVER['REQUEST_URI'], '/');
         foreach($this->routes as $route => $params){
             if(preg_match($route, $url)){
                 $this->params = $params;
@@ -37,12 +35,13 @@ class Router
 
     public function run(){
         if ($this->match()) {
-            $path = 'app\controllers\\' . ucfirst($this->params['controller']) . 'Controller';
+            $controller = 'app\controllers\\' . ucfirst($this->params['controller']) . 'Controller';
+
             if (class_exists($controller)) {
-                $controller = $this->params['action'].'Action';
+                $action = $this->params['action'].'Action';
                 if(method_exists($controller, $action)){
-                    $objController = new $controller;
-                    $objController->$action($this->params;);
+                    $objController = new $controller($this->params);
+                    $objController->$action($this->params);
                 }
                 else {
                     View::errorCode(404);
