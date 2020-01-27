@@ -47,7 +47,12 @@ class View{
         exit(json_encode([
             'status' => $status,
             'message' => $text,
-        ]));
+        ]));       
     }
 
+    public function location($url){
+        exit(json_encode([
+            'url' => $url,
+        ]));       
+    }
 }
