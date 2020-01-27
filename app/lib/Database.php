@@ -40,7 +40,7 @@ class Database
 
     public function rows($sql, $params = []){
         $result = $this->query($sql, $params);
-        return $result->fetch_assoc();
+        return $result->fetch_all(MYSQLI_ASSOC);
     }
     
     public function columns($sql, $params = []){

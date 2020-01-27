@@ -22,7 +22,7 @@ class View{
             ob_start();
             require $path;
             $content = ob_get_clean();
-            require 'app/view/layout/' . $this->layout . 'php';
+            require 'app/views/layouts/' . $this->layout . '.php';
         }
         else {
             echo 'View not found.';
