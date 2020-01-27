@@ -1,2 +1,4 @@
 # php-mvc
-Source code MVC site with front and backend-admin page 
+Вихідний код проекту PHP MVC.
+
+Містить роутер, адмінпанель, головний сайт та доступ до БД.
