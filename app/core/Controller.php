@@ -9,9 +9,15 @@ abstract class Controller{
     public $route;
     public $view;
     public $model;
+    public $acl;
 
     public function __construct($route){
         $this->route = $route;
+        if($this->checkAcl()){
+            View::errorCode(403);
+            exit;
+        }
+        
         $this->view = new View($route);
         if (method_exists($this, 'before')) {
             $this->before();
@@ -25,5 +31,27 @@ abstract class Controller{
         if (class_exists($path)) {
             return new $path;
         }
+    }
+
+    public function checkAcl(){
+        $fileAcl = 'app/acl/' . $this->route['controller'] . '.php';
+        if (file_exists($fileAcl)) {
+            $this->acl = require $fileAcl;
+            if ($this->isAcl('all')) {
+                return true;
+            }elseif (isset($_SESSION['authorize']['id']) AND $this->isAcl('authorize')) {
+                return true;
+            }elseif (!isset(!$_SESSION['authorize']['id']) AND $this->isAcl('guest')) {
+                return true;
+            }elseif (isset($_SESSION['admin']['id']) AND $this->isAcl('admin')) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
+
+    public function isAcl($key){
+        return is_array($this->route['action'], $this->acl[$key]);
     }
 }
