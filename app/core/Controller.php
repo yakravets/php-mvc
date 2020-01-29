@@ -39,11 +39,11 @@ abstract class Controller{
             $this->acl = require $fileAcl;
             if ($this->isAcl('all')) {
                 return true;
-            }elseif (isset($_SESSION['authorize']['id']) AND $this->isAcl('authorize')) {
+            }elseif (isset($_SESSION['authorize']['id']) && $this->isAcl('authorize')) {
                 return true;
-            }elseif (!isset(!$_SESSION['authorize']['id']) AND $this->isAcl('guest')) {
+            }elseif (!isset(!$_SESSION['authorize']['id']) && $this->isAcl('guest')) {
                 return true;
-            }elseif (isset($_SESSION['admin']['id']) AND $this->isAcl('admin')) {
+            }elseif (isset($_SESSION['admin']['id']) && $this->isAcl('admin')) {
                 return true;
             }
         }
