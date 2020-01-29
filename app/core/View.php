@@ -14,13 +14,13 @@ class View{
     }
 
     public function render($title, $data = []){
-        $path = 'app/views/' . $this->path . '.php';
+        $pathView = 'app/views/' . $this->path . '.php';
         
         extract($data);
 
-        if (file_exists($path)) {
+        if (file_exists($papathViewth)) {
             ob_start();
-            require $path;
+            require $pathView;
             $content = ob_get_clean();
             require 'app/views/layouts/' . $this->layout . '.php';
         }
