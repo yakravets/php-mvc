@@ -34,8 +34,7 @@ class Database
         }
         
         $stmt->execute();
-        $result = $stmt->get_result();
-        return $result;
+        return $stmt->get_result();
     }
 
     public function rows($sql, $params = []){
