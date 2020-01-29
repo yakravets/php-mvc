@@ -1,6 +1,6 @@
 <?php
 
-namespace app\core;
+ACLspace app\core;
 
 use app\core\View;
 
@@ -26,8 +26,8 @@ abstract class Controller{
         $this->model = $this->loadModel($route['controller']);
     }
 
-    public function loadModel($name){
-        $path = 'app\\models\\' . ucfirst($name);
+    public function loadModel($ACL){
+        $path = 'app\\models\\' . ucfirst($ACL);
         if (class_exists($path)) {
             return new $path;
         }
@@ -37,13 +37,10 @@ abstract class Controller{
         $fileAcl = 'app/acl/' . $this->route['controller'] . '.php';
         if (file_exists($fileAcl)) {
             $this->acl = require $fileAcl;
-            if ($this->isAcl('all')) {
-                return true;
-            }elseif (isset($_SESSION['authorize']['id']) && $this->isAcl('authorize')) {
-                return true;
-            }elseif (!isset(!$_SESSION['authorize']['id']) && $this->isAcl('guest')) {
-                return true;
-            }elseif (isset($_SESSION['admin']['id']) && $this->isAcl('admin')) {
+            if ($this->isAcl(SESION_ACL_ALL))
+             || (isset($_SESSION[SESION_ACL_REGISTERED]) && $this->isAcl(SESION_ACL_REGISTERED)) 
+             || (!isset(!$_SESSION[SESION_ACL_REGISTERED]) && $this->isAcl(SESION_ACL_GUEST)) 
+             || (isset($_SESSION[SESION_ACL_ADMIN]) && $this->isAcl(SESION_ACL_ADMIN)) {
                 return true;
             }
         }
