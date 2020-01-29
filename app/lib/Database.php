@@ -11,15 +11,6 @@ class Database
     protected $lastError;
     
     public function __construct(){
-       $configPath = 'app/config/db.php';
-       if(file_exists($configPath)) {
-           require $configPath;
-       }
-       else {
-           echo 'database config not exists';
-           exit;
-       }
-
        $this->db = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME, DB_PORT);
        if ($this->db->connect_errno) {
         $this->lastError = "Failed to connect to MySQL: (" . $this->db->connect_errno . ") " . $this->db->connect_error;
