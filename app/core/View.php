@@ -35,10 +35,10 @@ class View{
     }
 
     public static function errorCode($code){
-        $path = 'app/views/errors/' . $code . '.php';        
+        $pathView = 'app/views/errors/' . $code . '.php';        
         http_response_code($code);
-        if (file_exists($path)) {
-            require $path;
+        if (file_exists($pathView)) {
+            require $pathView;
         }
         exit();
     }
