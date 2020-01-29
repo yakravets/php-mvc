@@ -9,8 +9,7 @@ class AdminController extends Controller{
     }
 
     public function logoutAction(){
-        //$this->view->render('Выход');
-        exit('Выход');
+        $this->view->render('Выход');
     }
 
     public function addAction(){
@@ -21,7 +20,6 @@ class AdminController extends Controller{
         $this->view->render('Редактировать пост');
     }
     public function deleteAction(){
-        //$this->view->render('Удалить пост');
-        exit('Удалить пост');
+        $this->view->render('Удалить пост');
     }
 }
