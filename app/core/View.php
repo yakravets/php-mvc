@@ -18,10 +18,11 @@ class View{
         
         extract($data);
 
-        if (file_exists($papathViewth)) {
-            ob_start();
-            require $pathView;
-            $content = ob_get_clean();
+        if (file_exists($pathView)) {
+            foreach ($data as $key => $value) {
+                ${$key} = $value;
+            }
+
             require 'app/views/layouts/' . $this->layout . '.php';
         }
         else {
