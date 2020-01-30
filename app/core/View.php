@@ -20,7 +20,7 @@ class View{
 
         if (file_exists($pathView)) {
             foreach ($data as $key => $value) {
-                $$key = $value;
+                ${$key} = $value;
             }
 
             require 'app/views/layouts/' . $this->layout . '.php';
