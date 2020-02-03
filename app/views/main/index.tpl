@@ -5,5 +5,3 @@
     <p><?php echo $value['description']?></p>
     <br>
 <?php endforeach; ?>
-
-

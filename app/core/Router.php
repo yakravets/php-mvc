@@ -23,9 +23,11 @@ class Router
     }
 
     public function match(){
-        $url = trim($_SERVER['REQUEST_URI'], '/');
+        $url = explode('?', trim($_SERVER['REQUEST_URI'], '/'));
+        $this->globalParams($url[1]);
+
         foreach($this->routes as $route => $params){
-            if(preg_match($route, $url)){
+            if(preg_match($route, $url[0])){
                 $this->params = $params;
                 return true;
             }
@@ -35,6 +37,10 @@ class Router
     }
 
     public function run(){
+        if (!isset($_SESSION['lang'])) {
+            $_SESSION['lang'] = DEFAULT_LANG;
+        }
+
         if ($this->match()) {
             $controller = 'app\controllers\\' . ucfirst($this->params['controller']) . 'Controller';
 
@@ -57,4 +63,20 @@ class Router
         }
     }
 
+    public function globalParams($getParams){
+        $getParams = explode('&', $getParams);
+
+        foreach($getParams as $val){
+            $mapArr = explode   ('=', $val);
+            $key = $mapArr[0];
+            $value = $mapArr[1];
+            $this->getDataListener($key, $value);
+        }
+    }
+
+    private function getDataListener($key, $value){
+        if($key == 'lang'){
+            $_SESSION['lang'] = $value;
+        }
+    }
 }

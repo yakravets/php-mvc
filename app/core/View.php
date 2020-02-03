@@ -6,24 +6,34 @@ class View{
 
     public $path;
     public $route;
-    public $layout = 'default';
+    public $layout = DEFAULT_LAYOUT;
+    public $lang;
 
     public function __construct($route){
         $this->route = $route;
         $this->path = $route['controller'] . '/' . $route['action'];
+        $this->lang = $_SESSION['lang'];
     }
 
     public function render($title, $data = []){
-        $pathView = 'app/views/' . $this->path . '.php';
-        
-        extract($data);
+        $pathView = 'app/views/' . $this->path . '.tpl';
+        $pathlanguage = 'app/languages/' . $this->lang . '/' . $this->route['controller'] . '.php';
+
+        if (!file_exists($pathlanguage)) {
+            echo 'Lang file ' . $pathlanguage . ' is not found.';
+        }
+        else{
+            require $pathlanguage;
+            echo $_['title'];
+        }
 
         if (file_exists($pathView)) {
+            // Extracting data.
             foreach ($data as $key => $value) {
                 ${$key} = $value;
             }
 
-            require 'app/views/layouts/' . $this->layout . '.php';
+            require 'app/views/layouts/' . $this->layout . '.tpl';
         }
         else {
             echo 'View not found.';
