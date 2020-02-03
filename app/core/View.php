@@ -15,7 +15,7 @@ class View{
         $this->lang = $_SESSION['lang'];
     }
 
-    public function render($title, $data = []){
+    public function render($data = []){
         $pathView = 'app/views/' . $this->path . '.tpl';
         $pathlanguage = 'app/languages/' . $this->lang . '/' . $this->route['controller'] . '.php';
 
