@@ -1,6 +1,6 @@
 <?php
 
-ACLspace app\core;
+namespace app\core;
 
 use app\core\View;
 
@@ -26,8 +26,8 @@ abstract class Controller{
         $this->model = $this->loadModel($route['controller']);
     }
 
-    public function loadModel($ACL){
-        $path = 'app\\models\\' . ucfirst($ACL);
+    public function loadModel($acl){
+        $path = 'app\\models\\' . ucfirst($acl);
         if (class_exists($path)) {
             return new $path;
         }
@@ -37,10 +37,10 @@ abstract class Controller{
         $fileAcl = 'app/acl/' . $this->route['controller'] . '.php';
         if (file_exists($fileAcl)) {
             $this->acl = require $fileAcl;
-            if ($this->isAcl(SESION_ACL_ALL))
+            if ($this->isAcl(SESION_ACL_ALL)
              || (isset($_SESSION[SESION_ACL_REGISTERED]) && $this->isAcl(SESION_ACL_REGISTERED)) 
-             || (!isset(!$_SESSION[SESION_ACL_REGISTERED]) && $this->isAcl(SESION_ACL_GUEST)) 
-             || (isset($_SESSION[SESION_ACL_ADMIN]) && $this->isAcl(SESION_ACL_ADMIN)) {
+             || (!isset($_SESSION[SESION_ACL_REGISTERED]) && $this->isAcl(SESION_ACL_GUEST)) 
+             || (isset($_SESSION[SESION_ACL_ADMIN]) && $this->isAcl(SESION_ACL_ADMIN))) {
                 return true;
             }
         }
@@ -49,6 +49,6 @@ abstract class Controller{
     }
 
     public function isAcl($key){
-        return is_array($this->route['action'], $this->acl[$key]);
+        return in_array($this->route['action'], $this->acl[$key]);
     }
 }
